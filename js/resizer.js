@@ -123,7 +123,7 @@
         this._resizeConstraint.side - this._ctx.lineWidth / 2,
         this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
-      this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
 
       this._ctx.fillRect(this._resizeConstraint.side / 2 - this._ctx.lineWidth /
         2, -this._container.height, this._container.width, this._container
@@ -154,12 +154,11 @@
 
 
 
-      this._ctx.font = "12px Arial, sans-serif";
-      this._ctx.fillStyle =
-        "White";
-      this._ctx.textAlign = "center";
+      this._ctx.font = '12px Arial, sans-serif';
+      this._ctx.fillStyle = 'White';
+      this._ctx.textAlign = 'center';
 
-      this._ctx.fillText(this._image.naturalWidth + " x " + this._image
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image
         .naturalHeight,
         this._container.width / 2, 20);
     },
