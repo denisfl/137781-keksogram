@@ -118,8 +118,8 @@
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
       this._ctx.strokeRect(
-        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (-
-          this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+        (- this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
         this._resizeConstraint.side - this._ctx.lineWidth / 2,
         this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
@@ -134,13 +134,12 @@
         ._container.height, -this._container.width, this._container.height *
         2);
 
-      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-
-          this._resizeConstraint.side / 2) - this._ctx.lineWidth, this._resizeConstraint
-        .side + this._ctx.lineWidth / 2, -this._resizeConstraint.side /
-        2);
+      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, this._resizeConstraint
+        .side + this._ctx.lineWidth / 2, -this._resizeConstraint.side / 2);
 
-      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (
-          this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, 
+        (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
         this._resizeConstraint.side + this._ctx.lineWidth / 2,
         this._container.height);
 
