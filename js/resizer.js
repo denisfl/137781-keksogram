@@ -118,12 +118,11 @@
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
       this._ctx.strokeRect(
-        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (-
-          this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
         this._resizeConstraint.side - this._ctx.lineWidth / 2,
         this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
-      this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
 
       this._ctx.fillRect(this._resizeConstraint.side / 2 - this._ctx.lineWidth /
         2, -this._container.height, this._container.width, this._container
@@ -134,8 +133,7 @@
         ._container.height, -this._container.width, this._container.height *
         2);
 
-      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-
-          this._resizeConstraint.side / 2) - this._ctx.lineWidth, this._resizeConstraint
+      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, this._resizeConstraint
         .side + this._ctx.lineWidth / 2, -this._resizeConstraint.side /
         2);
 
@@ -154,12 +152,11 @@
 
 
 
-      this._ctx.font = "12px Arial, sans-serif";
-      this._ctx.fillStyle =
-        "White";
-      this._ctx.textAlign = "center";
+      this._ctx.font = '12px Arial, sans-serif';
+      this._ctx.fillStyle = 'White';
+      this._ctx.textAlign = 'center';
 
-      this._ctx.fillText(this._image.naturalWidth + " x " + this._image
+      this._ctx.fillText(this._image.naturalWidth + ' x ' + this._image
         .naturalHeight,
         this._container.width / 2, 20);
     },
@@ -315,8 +312,7 @@
       var temporaryCtx = temporaryCanvas.getContext('2d');
       temporaryCanvas.width = this._resizeConstraint.side;
       temporaryCanvas.height = this._resizeConstraint.side;
-      temporaryCtx.drawImage(this._image, -this._resizeConstraint.x, -
-        this._resizeConstraint.y);
+      temporaryCtx.drawImage(this._image, -this._resizeConstraint.x, -this._resizeConstraint.y);
       imageToExport.src = temporaryCanvas.toDataURL('image/png');
 
       return imageToExport;
