@@ -67,12 +67,25 @@
     backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
   }
 
+  var submitButton = document.getElementById('resize-fwd');
+  var xInputValue = document.getElementById('resize-x');
+  var yInputValue = document.getElementById('resize-y');
+  var sizeInputValue = document.getElementById('resize-size');
+
   /**
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
   function resizeFormIsValid() {
-    return true;
+    if (xInputValue.value >= 0 &&
+        yInputValue.value >= 0 &&
+        sizeInputValue.value >= 0 &&
+        (xInputValue.value + sizeInputValue.value <= currentResizer._image.naturalWidth) &&
+        (yInputValue.value + sizeInputValue.value <= currentResizer._image.naturalHeight)) {
+      return true;
+    } else {
+      submitButton.setAttribute('disabled', 'true');
+    }
   }
 
   /**
