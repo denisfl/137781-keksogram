@@ -238,6 +238,11 @@
       filterForm.classList.remove('invisible');
 
       filterImage.classList.add(filterFromCookies);
+
+      for (var i = 0; i < filterForm['upload-filter'].length; i++) {
+        filterForm['upload-filter'][i].removeAttribute('checked');
+      }
+      document.getElementById('upload-' + filterFromCookies).setAttribute('checked', '');
     }
   };
 
