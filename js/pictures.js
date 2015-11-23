@@ -2,7 +2,7 @@
 (function() {
   var container = document.querySelector('.pictures');
 
-  pictures.forEach(function(picture, index, pictures) {
+  pictures.forEach(function(picture) {
     var element = getElemtentFromTemplate(picture);
     container.appendChild(element);
   });
