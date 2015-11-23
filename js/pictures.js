@@ -2,7 +2,7 @@
 (function() {
   var container = document.querySelector('.pictures');
 
-  pictures.forEach(function(picture) {
+  pictures.forEach(function(picture, index, pictures) {
     var element = getElemtentFromTemplate(picture);
     container.appendChild(element);
   });
@@ -21,9 +21,18 @@
     element.querySelector('.picture-likes').textContent = data.likes;
 
     var backgroundImage = new Image();
+    var IMAGE_TIMEOUT = 10000;
+
+    var imageLoadTimeout = setTimeout(function() {
+      backgroundImage.src = '';
+      element.classList.add('picture-load-failure');
+    }, IMAGE_TIMEOUT);
+
     backgroundImage.onload = function() {
-      element.style.backgroundImage = 'url(\'' + backgroundImage + ')';
+      clearTimeout(imageLoadTimeout);
+      element.querySelector('img').setAttribute('src', '/' + data.url);
     };
+
     backgroundImage.onerror = function() {
       element.classList.add('picture-load-failure');
     };
