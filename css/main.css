@@ -168,6 +168,10 @@ body {
   width: 42px;
 }
 
+.upload-form-controls button[disabled='true'] {
+  opacity: .4;
+}
+
 .upload-form-controls-prev {
   background: rgba(255, 255, 255, 0.2) url('../img/icon-cross.png') center no-repeat;
   float: left;

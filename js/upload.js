@@ -77,16 +77,32 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
+    var resultCheckForm;
     if (xInputValue.value >= 0 &&
         yInputValue.value >= 0 &&
         sizeInputValue.value >= 0 &&
         (xInputValue.value + sizeInputValue.value <= currentResizer._image.naturalWidth) &&
         (yInputValue.value + sizeInputValue.value <= currentResizer._image.naturalHeight)) {
-      return true;
+      submitButton.setAttribute('disabled', 'false');
+      resultCheckForm = true;
     } else {
       submitButton.setAttribute('disabled', 'true');
+      resultCheckForm = false;
     }
+    return resultCheckForm;
   }
+
+  xInputValue.onchange = function() {
+    resizeFormIsValid();
+  };
+
+  yInputValue.onchange = function() {
+    resizeFormIsValid();
+  };
+
+  sizeInputValue.onchange = function() {
+    resizeFormIsValid();
+  };
 
   /**
    * Форма загрузки изображения.
