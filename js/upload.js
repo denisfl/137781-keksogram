@@ -67,13 +67,45 @@
     backgroundElement.style.backgroundImage = 'url(' + images[randomImageNumber] + ')';
   }
 
+  var submitButton = document.getElementById('resize-fwd');
+  var xInputValue = document.getElementById('resize-x');
+  var yInputValue = document.getElementById('resize-y');
+  var sizeInputValue = document.getElementById('resize-size');
+
   /**
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
   function resizeFormIsValid() {
-    return true;
+    var resultCheckForm;
+    var xCount = parseInt(xInputValue.value, 10);
+    var yCount = parseInt(yInputValue.value, 10);
+    var sizeCount = parseInt(sizeInputValue.value, 10);
+    if (xCount >= 0 &&
+        yCount >= 0 &&
+        sizeCount >= 0 &&
+        (xCount + sizeCount <= currentResizer._image.naturalWidth) &&
+        (yCount + sizeCount <= currentResizer._image.naturalHeight)) {
+      submitButton.removeAttribute('disabled');
+      resultCheckForm = true;
+    } else {
+      submitButton.setAttribute('disabled', 'true');
+      resultCheckForm = false;
+    }
+    return resultCheckForm;
   }
+
+  xInputValue.onchange = function() {
+    resizeFormIsValid();
+  };
+
+  yInputValue.onchange = function() {
+    resizeFormIsValid();
+  };
+
+  sizeInputValue.onchange = function() {
+    resizeFormIsValid();
+  };
 
   /**
    * Форма загрузки изображения.
