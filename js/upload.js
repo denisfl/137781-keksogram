@@ -78,11 +78,14 @@
    */
   function resizeFormIsValid() {
     var resultCheckForm;
-    if (xInputValue.value >= 0 &&
-        yInputValue.value >= 0 &&
-        sizeInputValue.value >= 0 &&
-        (xInputValue.value + sizeInputValue.value <= currentResizer._image.naturalWidth) &&
-        (yInputValue.value + sizeInputValue.value <= currentResizer._image.naturalHeight)) {
+    var xCount = parseInt(xInputValue.value, 10);
+    var yCount = parseInt(yInputValue.value, 10);
+    var sizeCount = parseInt(sizeInputValue.value, 10);
+    if (xCount >= 0 &&
+        yCount >= 0 &&
+        sizeCount >= 0 &&
+        (xCount + sizeCount <= currentResizer._image.naturalWidth) &&
+        (yCount + sizeCount <= currentResizer._image.naturalHeight)) {
       submitButton.setAttribute('disabled', 'false');
       resultCheckForm = true;
     } else {
