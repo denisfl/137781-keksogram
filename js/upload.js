@@ -103,6 +103,8 @@
    */
   var uploadMessage = document.querySelector('.upload-message');
 
+  var filterFromCookies = docCookies.getItem('filterImagePreview') || '';
+
   /**
    * @param {Action} action
    * @param {string=} message
@@ -130,6 +132,41 @@
 
   function hideMessage() {
     uploadMessage.classList.add('invisible');
+  }
+
+  /**
+   * Вычисляем количество дней, прошедшее с моего ближайшего дня рождения
+   */
+  function getDate() {
+    var today = new Date();
+    var myBithday = new Date(today.getFullYear() + ' september 22');
+    var msDay = 60 * 60 * 24 * 1000;
+    var dateToExpire = +Date.now() + Math.floor((today - myBithday) / msDay) * 24 * 60 * 60 * 1000;
+    return new Date(dateToExpire).toUTCString();
+  }
+
+  /**
+   * Выбираем нужный фильтр
+   * Вынес из функции filterForm.onchange, чтобы можно было переиспользовать
+   * для сохранения в cookie
+   */
+  function getFilter() {
+    if (!filterMap) {
+      // Ленивая инициализация. Объект не создается до тех пор, пока
+      // не понадобится прочитать его в первый раз, а после этого запоминается
+      // навсегда.
+      filterMap = {
+        'none': 'filter-none',
+        'chrome': 'filter-chrome',
+        'sepia': 'filter-sepia'
+      };
+    }
+
+    var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+      return item.checked;
+    })[0].value;
+
+    return filterMap[selectedFilter];
   }
 
   /**
@@ -199,6 +236,13 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
+
+      filterImage.classList.add(filterFromCookies);
+
+      for (var i = 0; i < filterForm['upload-filter'].length; i++) {
+        filterForm['upload-filter'][i].removeAttribute('checked');
+      }
+      document.getElementById('upload-' + filterFromCookies).setAttribute('checked', '');
     }
   };
 
@@ -223,6 +267,7 @@
 
     cleanupResizer();
     updateBackground();
+    docCookies.setItem('filterImagePreview', getFilter(), getDate());
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
@@ -233,25 +278,10 @@
    * выбранному значению в форме.
    */
   filterForm.onchange = function() {
-    if (!filterMap) {
-      // Ленивая инициализация. Объект не создается до тех пор, пока
-      // не понадобится прочитать его в первый раз, а после этого запоминается
-      // навсегда.
-      filterMap = {
-        'none': 'filter-none',
-        'chrome': 'filter-chrome',
-        'sepia': 'filter-sepia'
-      };
-    }
-
-    var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
-      return item.checked;
-    })[0].value;
-
     // Класс перезаписывается, а не обновляется через classList потому что нужно
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
-    filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+    filterImage.className = 'filter-image-preview ' + getFilter();
   };
 
   cleanupResizer();
