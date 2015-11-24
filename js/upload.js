@@ -86,7 +86,7 @@
         sizeCount >= 0 &&
         (xCount + sizeCount <= currentResizer._image.naturalWidth) &&
         (yCount + sizeCount <= currentResizer._image.naturalHeight)) {
-      submitButton.setAttribute('disabled', 'false');
+      submitButton.removeAttribute('disabled');
       resultCheckForm = true;
     } else {
       submitButton.setAttribute('disabled', 'true');
