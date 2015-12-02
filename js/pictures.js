@@ -3,7 +3,7 @@
   var container = document.querySelector('.pictures');
   var pictures = [];
   var filters = document.querySelector('.filters');
-  var activeFilter;
+  var activeFilter = 'filter-popular';
   var filteredPictures = [];
 
   filters.addEventListener('click', function(event) {
@@ -22,17 +22,33 @@
       var data = event.target.response;
       var loadedPictures = JSON.parse(data);
       container.classList.remove('pictures-loading');
-      updatedLoadedPictures(loadedPictures);
+      updateLoadedPictures(loadedPictures);
     };
     xhr.send();
+
+    xhr.timeout = 1000;
+    xhr.ontimeout = function() {
+      setErrorXHRLoad();
+    };
+    xhr.onreadystatechange = function() {
+      if (this.status !== 200) {
+        setErrorXHRLoad();
+        return;
+      }
+    };
+  }
+
+  function setErrorXHRLoad() {
+    container.classList.remove('pictures-loading');
+    container.classList.add('pictures-failure');
   }
 
   getPictures();
 
-  function updatedLoadedPictures(loadedPictures) {
+  function updateLoadedPictures(loadedPictures) {
     pictures = loadedPictures;
 
-    setActiveFilter(activeFilter);
+    setActiveFilter();
   }
 
   function setActiveFilter(id) {
