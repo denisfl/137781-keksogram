@@ -19,22 +19,23 @@
 
     xhr.open('GET', './data/pictures.json');
     xhr.onload = function(event) {
-      var data = event.target.response;
-      var loadedPictures = JSON.parse(data);
-      container.classList.remove('pictures-loading');
-      updateLoadedPictures(loadedPictures);
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          var data = event.target.response;
+          var loadedPictures = JSON.parse(data);
+          container.classList.remove('pictures-loading');
+          updateLoadedPictures(loadedPictures);
+        } else {
+          setErrorXHRLoad();
+          return;
+        }
+      }
     };
     xhr.send();
 
     xhr.timeout = 1000;
     xhr.ontimeout = function() {
       setErrorXHRLoad();
-    };
-    xhr.onreadystatechange = function() {
-      if (this.status !== 200) {
-        setErrorXHRLoad();
-        return;
-      }
     };
   }
 
@@ -60,13 +61,14 @@
 
     switch (id) {
       case 'filter-popular':
-        filteredPictures = filteredPictures.sort(function(a, b) {
-          return b.like - a.like;
-        });
+        filteredPictures = pictures;
         break;
       case 'filter-new':
+        filteredPictures = filteredPictures.filter(function(i) {
+          return new Date(i.date) >= new Date('2015-10-01');
+        });
         filteredPictures = filteredPictures.sort(function(a, b) {
-          return new Date(b.date) - new Date(a.date);
+          return b.date - a.date;
         });
         break;
       case 'filter-discussed':
@@ -83,12 +85,12 @@
     container.innerHTML = '';
 
     filteredPictures.forEach(function(picture) {
-      var element = getElemtentFromTemplate(picture);
+      var element = getElementFromTemplate(picture);
       container.appendChild(element);
     });
   }
 
-  function getElemtentFromTemplate(data) {
+  function getElementFromTemplate(data) {
     var template = document.querySelector('#picture-template');
     var element;
 
