@@ -60,9 +60,6 @@
     filteredPictures = pictures.slice(0);
 
     switch (id) {
-      case 'filter-popular':
-        filteredPictures = pictures;
-        break;
       case 'filter-new':
         filteredPictures = filteredPictures.filter(function(i) {
           return new Date(i.date) >= new Date('2015-10-01');
