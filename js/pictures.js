@@ -5,6 +5,8 @@
   var filters = document.querySelector('.filters');
   var activeFilter = 'filter-popular';
   var filteredPictures = [];
+  var PAGE_SIZE = 12;
+  var currentPage = 0;
 
   filters.addEventListener('click', function(event) {
     var clickedElement = event.target;
@@ -12,6 +14,31 @@
       setActiveFilter(clickedElement.control.id);
     }
   });
+
+  var scrollTimeout;
+
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    checkWindowsHeight();
+  });
+
+  function checkWindowsHeight() {
+    var scrollHeight = Math.max(
+      document.body.scrollHeight, document.documentElement.scrollHeight,
+      document.body.offsetHeight, document.documentElement.offsetHeight,
+      document.body.clientHeight, document.documentElement.clientHeight
+    );
+    scrollTimeout = setTimeout(function() {
+
+      if (document.body.scrollTop >= scrollHeight - window.innerHeight) {
+        if (currentPage < Math.ceil(filteredPictures.length / PAGE_SIZE)) {
+          renderPictures(filteredPictures, ++currentPage);
+        }
+      }
+    }, 100);
+  }
+
+  checkWindowsHeight();
 
   function getPictures() {
     var xhr = new XMLHttpRequest();
@@ -52,6 +79,24 @@
     setActiveFilter();
   }
 
+  function renderPictures(picturesToRender, pageNumber, replace) {
+    if (replace) {
+      container.innerHTML = '';
+    }
+
+    var fragment = document.createDocumentFragment();
+    var from = pageNumber * PAGE_SIZE;
+    var to = from + PAGE_SIZE;
+
+    var pagePictures = picturesToRender.slice(from, to);
+
+    pagePictures.forEach(function(picture) {
+      var element = getElementFromTemplate(picture);
+      fragment.appendChild(element);
+    });
+    container.appendChild(fragment);
+  }
+
   function setActiveFilter(id) {
     if (activeFilter === id) {
       return;
@@ -74,18 +119,12 @@
         });
         break;
     }
-    renderPictures(filteredPictures);
+
+    currentPage = 0;
+    renderPictures(filteredPictures, currentPage, true);
     activeFilter = id;
   }
 
-  function renderPictures() {
-    container.innerHTML = '';
-
-    filteredPictures.forEach(function(picture) {
-      var element = getElementFromTemplate(picture);
-      container.appendChild(element);
-    });
-  }
 
   function getElementFromTemplate(data) {
     var template = document.querySelector('#picture-template');
