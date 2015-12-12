@@ -105,7 +105,7 @@
 
   sizeInputValue.addEventListener('change', function() {
     resizeFormIsValid();
-    setResizeParams()
+    setResizeParams();
   });
 
   window.addEventListener('resizerchange', function() {
