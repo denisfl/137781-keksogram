@@ -95,32 +95,26 @@
     return resultCheckForm;
   }
 
-  xInputValue.addEventListener('change', function() {
-    setResizeParams();
-  });
+  xInputValue.addEventListener('change', setResizeParams);
 
-  yInputValue.addEventListener('change', function() {
-    setResizeParams();
-  });
+  yInputValue.addEventListener('change', setResizeParams);
 
-  sizeInputValue.addEventListener('change', function() {
-    resizeFormIsValid();
-    setResizeParams();
-  });
+  sizeInputValue.addEventListener('change', setResizeParams);
 
-  window.addEventListener('resizerchange', function() {
-    getResizeParams();
-  });
+  window.addEventListener('resizerchange', getResizeParams);
 
   function getResizeParams() {
     var param = currentResizer.getConstraint();
-    xInputValue.setAttribute('value', param.x);
-    yInputValue.setAttribute('value', param.y);
-    sizeInputValue.setAttribute('value', param.side);
+
+    xInputValue.value = (param.x >= 0) ? param.x : 0;
+    yInputValue.value = (param.y >= 0) ? param.y : 0;
+    sizeInputValue.value = (param.side >= 0) ? param.side : 0;
   }
 
   function setResizeParams() {
-    currentResizer.setConstraint(+xInputValue.value, +yInputValue.value, +sizeInputValue.value);
+    if (resizeFormIsValid() === true) {
+      currentResizer.setConstraint(+xInputValue.value, +yInputValue.value, +sizeInputValue.value);
+    }
   }
 
   /**

@@ -133,9 +133,11 @@
         ._container.height, -this._container.width, this._container.height *
         2);
 
-      this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth, this._resizeConstraint
-        .side + this._ctx.lineWidth / 2, -this._resizeConstraint.side /
-        2);
+      this._ctx.fillRect(
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+        (-this._resizeConstraint.side / 2) - this._ctx.lineWidth,
+        this._resizeConstraint.side + this._ctx.lineWidth / 2,
+        -this._resizeConstraint.side * 2);
 
       this._ctx.fillRect((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (
           this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
