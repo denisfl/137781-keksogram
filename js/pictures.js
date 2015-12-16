@@ -1,3 +1,5 @@
+/* global Photo: true */
+
 'use strict';
 (function() {
   var container = document.querySelector('.pictures');
@@ -91,8 +93,9 @@
     var pagePictures = picturesToRender.slice(from, to);
 
     pagePictures.forEach(function(picture) {
-      var element = getElementFromTemplate(picture);
-      fragment.appendChild(element);
+      var photoElement = new Photo(picture);
+      photoElement.render();
+      fragment.appendChild(photoElement.element);
     });
     container.appendChild(fragment);
   }
@@ -123,41 +126,5 @@
     currentPage = 0;
     renderPictures(filteredPictures, currentPage, true);
     activeFilter = id;
-  }
-
-
-  function getElementFromTemplate(data) {
-    var template = document.querySelector('#picture-template');
-    var element;
-
-    if ('content' in template) {
-      element = template.content.children[0].cloneNode(true);
-    } else {
-      element = template.children[0].cloneNode(true);
-    }
-
-    element.querySelector('.picture-comments').textContent = data.comments;
-    element.querySelector('.picture-likes').textContent = data.likes;
-
-    var backgroundImage = new Image();
-    var IMAGE_TIMEOUT = 10000;
-
-    var imageLoadTimeout = setTimeout(function() {
-      backgroundImage.src = '';
-      element.classList.add('picture-load-failure');
-    }, IMAGE_TIMEOUT);
-
-    backgroundImage.onload = function() {
-      clearTimeout(imageLoadTimeout);
-      element.querySelector('img').setAttribute('src', '/' + data.url);
-    };
-
-    backgroundImage.onerror = function() {
-      element.classList.add('picture-load-failure');
-    };
-
-    backgroundImage.src = '/' + data.url;
-
-    return element;
   }
 })();
