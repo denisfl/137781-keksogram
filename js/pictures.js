@@ -1,4 +1,4 @@
-/* global Photo: true */
+/* global Photo: true, Gallery: true */
 
 'use strict';
 (function() {
@@ -9,6 +9,7 @@
   var filteredPictures = [];
   var PAGE_SIZE = 12;
   var currentPage = 0;
+  var gallery = new Gallery();
 
   filters.addEventListener('click', function(event) {
     var clickedElement = event.target;
@@ -96,8 +97,15 @@
       var photoElement = new Photo(picture);
       photoElement.render();
       fragment.appendChild(photoElement.element);
+
+      photoElement.element.addEventListener('click', _onClick);
     });
     container.appendChild(fragment);
+  }
+
+  function _onClick(event) {
+    event.preventDefault();
+    gallery.show();
   }
 
   function setActiveFilter(id) {
