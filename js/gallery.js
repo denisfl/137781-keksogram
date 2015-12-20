@@ -19,7 +19,7 @@
   Gallery.prototype.hide = function() {
     this.element.classList.add('invisible');
     this._closeBtn.removeEventListener('click', this._onPhotoClick);
-    this._closeBtn.removeEventListener('keyup', this._onDocumentKeyDown);
+    window.removeEventListener('keyup', this._onDocumentKeyDown);
   };
 
   Gallery.prototype._onPhotoClick = function() {
