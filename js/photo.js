@@ -38,5 +38,9 @@
     backgroundImage.src = '/' + this._data.url;
   };
 
+  Photo.prototype.remove = function(child) {
+    this.element.removeChild(child);
+  };
+
   window.Photo = Photo;
 })();
