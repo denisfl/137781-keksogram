@@ -1,4 +1,4 @@
-/* global Photo: true */
+/* global Photo: true, Gallery: true */
 
 'use strict';
 (function() {
@@ -9,6 +9,8 @@
   var filteredPictures = [];
   var PAGE_SIZE = 12;
   var currentPage = 0;
+  var gallery = new Gallery();
+  var renderedPhotos = [];
 
   filters.addEventListener('click', function(event) {
     var clickedElement = event.target;
@@ -83,8 +85,11 @@
 
   function renderPictures(picturesToRender, pageNumber, replace) {
     if (replace) {
-      container.innerHTML = '';
+      renderedPhotos.forEach(function(photo) {
+        photo.element.remove();
+      });
     }
+    renderedPhotos = [];
 
     var fragment = document.createDocumentFragment();
     var from = pageNumber * PAGE_SIZE;
@@ -94,10 +99,18 @@
 
     pagePictures.forEach(function(picture) {
       var photoElement = new Photo(picture);
+      renderedPhotos.push(photoElement);
       photoElement.render();
       fragment.appendChild(photoElement.element);
+
+      photoElement.element.addEventListener('click', _onClick);
     });
     container.appendChild(fragment);
+  }
+
+  function _onClick(event) {
+    event.preventDefault();
+    gallery.show();
   }
 
   function setActiveFilter(id) {
