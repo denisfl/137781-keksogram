@@ -1,7 +1,6 @@
 'use strict';
 
 (function() {
-
   function Photo(data) {
     this._data = data;
   }
@@ -36,10 +35,6 @@
     }.bind(this);
 
     backgroundImage.src = '/' + this._data.url;
-  };
-
-  Photo.prototype.remove = function(child) {
-    this.element.removeChild(child);
   };
 
   window.Photo = Photo;
