@@ -23,7 +23,7 @@
     var imageLoadTimeout = setTimeout(function() {
       backgroundImage.src = '';
       this.element.classList.add('picture-load-failure');
-    }, IMAGE_TIMEOUT);
+    }.bind(this), IMAGE_TIMEOUT);
 
     backgroundImage.onload = function() {
       clearTimeout(imageLoadTimeout);
