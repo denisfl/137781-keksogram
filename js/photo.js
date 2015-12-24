@@ -1,10 +1,22 @@
+/**
+ * @fileoverview
+ * @author Denis FL (denisfl)
+ */
+
 'use strict';
 
 (function() {
+  /**
+   * @constructor
+   */
   function Photo(data) {
     this._data = data;
   }
 
+  /**
+   * Рендер фотографии
+   * @override
+   */
   Photo.prototype.render = function() {
     var template = document.querySelector('#picture-template');
 
@@ -17,7 +29,16 @@
     this.element.querySelector('.picture-comments').textContent = this._data.comments;
     this.element.querySelector('.picture-likes').textContent = this._data.likes;
 
+    /**
+     * @type {Image}
+     */
     var backgroundImage = new Image();
+
+    /**
+     * Константа таймаута
+     * @const
+     * @type {number}
+     */
     var IMAGE_TIMEOUT = 10000;
 
     var imageLoadTimeout = setTimeout(function() {
