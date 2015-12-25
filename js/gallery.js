@@ -12,6 +12,7 @@
   var Gallery = function() {
     this.element = document.querySelector('.gallery-overlay');
     this._closeBtn = document.querySelector('.gallery-overlay-close');
+    this._data = null;
 
     this._onPhotoClick = this._onPhotoClick.bind(this);
     this._onCloseBtnClick = this._onCloseBtnClick.bind(this);
@@ -22,8 +23,17 @@
    * Показ галереи
    * @override
    */
-  Gallery.prototype.show = function() {
+  Gallery.prototype.render = function() {
     this.element.classList.remove('invisible');
+    // var thumbnailsContainer = this.element.querySelector('.gallery-overlay-image');
+
+    // this._data.getPictures().forEach(function(pic) {
+    //   var picture = new Image();
+    //   picture.src = pic;
+    //   thumbnailsContainer.appendChild(picture);
+    // }, this);
+
+    this.setCurrentImage(0);
 
     this._closeBtn.addEventListener('click', this._onCloseBtnClick);
     window.addEventListener('keyup', this._onDocumentKeyDown);
@@ -32,7 +42,7 @@
   /**
    * Скрытие галереи
    */
-  Gallery.prototype.hide = function() {
+  Gallery.prototype.remove = function() {
     this.element.classList.add('invisible');
     this._closeBtn.removeEventListener('click', this._onPhotoClick);
     window.removeEventListener('keyup', this._onDocumentKeyDown);
@@ -43,7 +53,7 @@
    * @private
    */
   Gallery.prototype._onCloseBtnClick = function() {
-    this.hide();
+    this.remove();
   };
 
   /**
@@ -51,7 +61,7 @@
    * @override
    */
   Gallery.prototype._onPhotoClick = function() {
-
+    console.log(this._data);
   };
 
   /**
@@ -60,8 +70,20 @@
    */
   Gallery.prototype._onDocumentKeyDown = function(event) {
     if (event.keyCode === 27) {
-      this.hide();
+      this.remove();
     }
+  };
+
+  Gallery.prototype.setCurrentImage = function(i) {
+    var image = new Image();
+    image.src = this._data.getPictures()[i];
+
+    var previewContainer = this.element.querySelector('.gallery-overlay-image');
+    while (previewContainer.firstChild) {
+      previewContainer.removeChild(previewContainer.firstChild);
+    }
+
+    previewContainer.appendChild(image);
   };
 
   window.Gallery = Gallery;

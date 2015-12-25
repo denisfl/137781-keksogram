@@ -122,11 +122,12 @@
    */
   function renderPictures(picturesToRender, pageNumber, replace) {
     if (replace) {
-      renderedPhotos.forEach(function(photo) {
-        photo.element.remove();
-      });
+      var el;
+      while ((el = renderedPhotos.shift())) {
+        el.remove();
+        el.onGalleryClick = null;
+      }
     }
-    renderedPhotos = [];
 
     var fragment = document.createDocumentFragment();
     var from = pageNumber * PAGE_SIZE;
@@ -134,20 +135,16 @@
 
     var pagePictures = picturesToRender.slice(from, to);
 
-    pagePictures.forEach(function(picture) {
-      var photoElement = new Photo(picture);
-      renderedPhotos.push(photoElement);
-      photoElement.render();
-      fragment.appendChild(photoElement.element);
+    renderedPhotos = renderedPhotos.concat(pagePictures.map(function(photo) {
+      var photoElement = new Photo(photo);
+      photoElement.render(container);
+      photoElement.onGalleryClick = function() {
+        gallery.data = photoElement._data;
+        gallery.render();
+      };
+    }));
 
-      photoElement.element.addEventListener('click', _onClick);
-    });
     container.appendChild(fragment);
-  }
-
-  function _onClick(event) {
-    event.preventDefault();
-    gallery.show();
   }
 
   /**

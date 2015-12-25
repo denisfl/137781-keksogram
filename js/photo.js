@@ -11,13 +11,14 @@
    */
   function Photo(data) {
     this._data = data;
+    this._onClick = this._onClick.bind(this);
   }
 
   /**
    * Рендер фотографии
    * @override
    */
-  Photo.prototype.render = function() {
+  Photo.prototype.render = function(container) {
     var template = document.querySelector('#picture-template');
 
     if ('content' in template) {
@@ -56,7 +57,34 @@
     }.bind(this);
 
     backgroundImage.src = '/' + this._data.url;
+
+    if (container) {
+      container.appendChild(this.element);
+      this.container = container;
+    }
+
+    this.element.addEventListener('click', this._onClick);
   };
+
+  Photo.prototype.remove = function() {
+    if (this.container) {
+      this.container.removeChild(this.element);
+      this.container = null;
+    }
+
+    this.element.removeEventListener('click', this._onClick);
+  };
+
+  Photo.prototype._onClick = function(event) {
+    event.preventDefault();
+    if (event.srcElement && !this.element.classList.contains('picture-load-failure')) {
+      if (typeof this.onGalleryClick === 'function') {
+        this.onGalleryClick();
+      }
+    }
+  };
+
+  Photo.prototype.onGalleryClick = null;
 
   window.Photo = Photo;
 })();
