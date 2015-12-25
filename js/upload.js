@@ -95,14 +95,23 @@
     return resultCheckForm;
   }
 
+  /**
+   * Слушаем изменения инпутов
+   * @event
+   */
   xInputValue.addEventListener('change', setResizeParams);
-
   yInputValue.addEventListener('change', setResizeParams);
-
   sizeInputValue.addEventListener('change', setResizeParams);
 
+  /**
+   * Слушаем ресайз окна
+   * @event
+   */
   window.addEventListener('resizerchange', getResizeParams);
 
+  /**
+   * Получаем значения смещения для инпутов
+   */
   function getResizeParams() {
     var param = currentResizer.getConstraint();
 
@@ -111,6 +120,9 @@
     sizeInputValue.value = (param.side >= 0) ? param.side : 0;
   }
 
+  /**
+   * Устанавливаем значения для инпутов
+   */
   function setResizeParams() {
     if (resizeFormIsValid() === true) {
       currentResizer.setConstraint(+xInputValue.value, +yInputValue.value, +sizeInputValue.value);

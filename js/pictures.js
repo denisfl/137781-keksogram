@@ -1,5 +1,10 @@
 /* global Photo: true, Gallery: true */
 
+/**
+ * @fileoverview
+ * @author Denis FL (denisfl)
+ */
+
 'use strict';
 (function() {
   var container = document.querySelector('.pictures');
@@ -12,6 +17,10 @@
   var gallery = new Gallery();
   var renderedPhotos = [];
 
+  /**
+   * @event
+   * @param {Boolean}
+   */
   filters.addEventListener('click', function(event) {
     var clickedElement = event.target;
     if (clickedElement.classList.contains('filters-item')) {
@@ -21,11 +30,20 @@
 
   var scrollTimeout;
 
+  /**
+   * Слушаем скролл. По скроллу очищаем таймаут и
+   * запускаем проверку высоты окна
+   * @event
+   */
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     checkWindowsHeight();
   });
 
+  /**
+   * Проверяем высоту окна по таймауту
+   * @param {number} scrollHeight
+   */
   function checkWindowsHeight() {
     var scrollHeight = Math.max(
       document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -42,8 +60,14 @@
     }, 100);
   }
 
+  /**
+   * Запускаем проверку высоты окна
+   */
   checkWindowsHeight();
 
+  /**
+   * Загружаем списка фотографий
+   */
   function getPictures() {
     var xhr = new XMLHttpRequest();
     container.classList.add('pictures-loading');
@@ -70,6 +94,9 @@
     };
   }
 
+  /**
+   * Визуализация ошибки в случае неудачной загрузки фотографии
+   */
   function setErrorXHRLoad() {
     container.classList.remove('pictures-loading');
     container.classList.add('pictures-failure');
@@ -77,12 +104,22 @@
 
   getPictures();
 
+  /**
+   * Сохранение массива фотографий в переменную pictures, вызов фильтрации и отрисовки.
+   * @param {Array.<Object>} loadedPictures
+   */
   function updateLoadedPictures(loadedPictures) {
     pictures = loadedPictures;
 
     setActiveFilter();
   }
 
+  /**
+   * Отрисовка списка фотографий.
+   * @param {Array.<Object>} picturesToRender
+   * @param {number} pageNumber
+   * @param {boolean=} replace
+   */
   function renderPictures(picturesToRender, pageNumber, replace) {
     if (replace) {
       renderedPhotos.forEach(function(photo) {
@@ -113,6 +150,10 @@
     gallery.show();
   }
 
+  /**
+   * Установка выбранного фильтра
+   * @param {string} id
+   */
   function setActiveFilter(id) {
     if (activeFilter === id) {
       return;
