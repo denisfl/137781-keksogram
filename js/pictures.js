@@ -10,7 +10,7 @@
   var container = document.querySelector('.pictures');
   var pictures = [];
   var filters = document.querySelector('.filters');
-  var activeFilter = 'filter-popular';
+  var activeFilter = localStorage.getItem('activeFilter') || 'filter-popular';
   var filteredPictures = [];
   var PAGE_SIZE = 12;
   var currentPage = 0;
@@ -111,7 +111,8 @@
   function updateLoadedPictures(loadedPictures) {
     pictures = loadedPictures;
 
-    setActiveFilter();
+    // setActiveFilter();
+    setActiveFilter(activeFilter, true);
   }
 
   /**
@@ -154,11 +155,12 @@
    * Установка выбранного фильтра
    * @param {string} id
    */
-  function setActiveFilter(id) {
-    if (activeFilter === id) {
+  function setActiveFilter(id, force) {
+    if (activeFilter === id && !force) {
       return;
     }
 
+    document.querySelector('#' + id).setAttribute('checked', '');
     filteredPictures = pictures.slice(0);
 
     switch (id) {
@@ -180,5 +182,6 @@
     currentPage = 0;
     renderPictures(filteredPictures, currentPage, true);
     activeFilter = id;
+    localStorage.setItem('activeFilter', id);
   }
 })();
